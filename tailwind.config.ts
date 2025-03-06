@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,15 +53,17 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				// Custom cyber theme colors
+				cyber: {
+					background: '#0A192F',
+					"background-alt": '#121212',
+					"card-bg": 'rgba(28, 28, 28, 0.7)',
+					neon: '#00FFFF',
+					purple: '#8B00FF',
+					red: '#FF003C',
+					green: '#39FF14',
+					"dark-purple": '#4B0082',
+					"muted-text": '#8892b0',
 				}
 			},
 			borderRadius: {
@@ -69,27 +72,73 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			keyframes: {
-				'accordion-down': {
-					from: {
-						height: '0'
+				"accordion-down": {
+					from: { height: "0" },
+					to: { height: "var(--radix-accordion-content-height)" },
+				},
+				"accordion-up": {
+					from: { height: "var(--radix-accordion-content-height)" },
+					to: { height: "0" },
+				},
+				"fade-in": {
+					"0%": { opacity: "0", transform: "translateY(10px)" },
+					"100%": { opacity: "1", transform: "translateY(0)" }
+				},
+				"fade-out": {
+					"0%": { opacity: "1", transform: "translateY(0)" },
+					"100%": { opacity: "0", transform: "translateY(10px)" }
+				},
+				"pulse-glow": {
+					"0%, 100%": { 
+						opacity: "1",
+						filter: "drop-shadow(0 0 5px currentColor)" 
 					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
+					"50%": { 
+						opacity: "0.7",
+						filter: "drop-shadow(0 0 15px currentColor)" 
 					}
 				},
-				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+				"terminal-cursor": {
+					"0%, 100%": { opacity: "0" },
+					"50%": { opacity: "1" }
+				},
+				"float": {
+					"0%, 100%": { transform: "translateY(0)" },
+					"50%": { transform: "translateY(-10px)" }
+				},
+				"glitch": {
+					"0%, 100%": { transform: "translate(0)" },
+					"20%": { transform: "translate(-2px, 2px)" },
+					"40%": { transform: "translate(-2px, -2px)" },
+					"60%": { transform: "translate(2px, 2px)" },
+					"80%": { transform: "translate(2px, -2px)" }
+				},
+				"scan-line": {
+					"0%": { transform: "translateY(0%)" },
+					"100%": { transform: "translateY(100%)" }
 				}
 			},
 			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				"accordion-down": "accordion-down 0.2s ease-out",
+				"accordion-up": "accordion-up 0.2s ease-out",
+				"fade-in": "fade-in 0.3s ease-out forwards",
+				"fade-out": "fade-out 0.3s ease-out forwards",
+				"pulse-glow": "pulse-glow 2s ease-in-out infinite",
+				"terminal-cursor": "terminal-cursor 1s ease-in-out infinite",
+				"float": "float 3s ease-in-out infinite",
+				"glitch": "glitch 0.3s ease forwards",
+				"scan-line": "scan-line 4s linear infinite"
+			},
+			backgroundImage: {
+				"cyber-grid": "linear-gradient(rgba(10, 25, 47, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 25, 47, 0.5) 1px, transparent 1px)",
+				"glow-conic": "conic-gradient(from 180deg at 50% 50%, #00FFFF 0deg, #8B00FF 180deg, #00FFFF 360deg)",
+			},
+			boxShadow: {
+				"neon-cyan": "0 0 5px theme('colors.cyber.neon'), 0 0 20px theme('colors.cyber.neon')",
+				"neon-purple": "0 0 5px theme('colors.cyber.purple'), 0 0 20px theme('colors.cyber.purple')",
+				"neon-red": "0 0 5px theme('colors.cyber.red'), 0 0 20px theme('colors.cyber.red')",
+				"neon-green": "0 0 5px theme('colors.cyber.green'), 0 0 20px theme('colors.cyber.green')",
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

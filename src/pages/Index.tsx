@@ -1,12 +1,33 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useEffect } from 'react';
+import Hero from '@/components/Hero';
+import Header from '@/components/Header';
+import LevelProgression from '@/components/LevelProgression';
+import AIMentor from '@/components/AIMentor';
+import LearningModes from '@/components/LearningModes';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  // Add a class to the body for global styling
+  useEffect(() => {
+    document.body.classList.add('cyber-theme');
+    return () => {
+      document.body.classList.remove('cyber-theme');
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
+      <Header />
+      
+      <main>
+        <Hero />
+        <LevelProgression />
+        <AIMentor />
+        <LearningModes />
+      </main>
+      
+      <Footer />
     </div>
   );
 };
