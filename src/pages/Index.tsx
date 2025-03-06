@@ -11,8 +11,12 @@ const Index = () => {
   // Add a class to the body for global styling
   useEffect(() => {
     document.body.classList.add('cyber-theme');
+    // Set the background color explicitly to ensure it applies everywhere
+    document.body.style.backgroundColor = '#1B263B'; // Midnight Blue
+    
     return () => {
       document.body.classList.remove('cyber-theme');
+      document.body.style.backgroundColor = '';
     };
   }, []);
 

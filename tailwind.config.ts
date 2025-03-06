@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,16 +52,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Custom cyber theme colors
 				cyber: {
-					background: '#0A192F',
-					"background-alt": '#121212',
-					"card-bg": 'rgba(28, 28, 28, 0.7)',
-					neon: '#00FFFF',
-					purple: '#8B00FF',
-					red: '#FF003C',
-					green: '#39FF14',
-					"dark-purple": '#4B0082',
+					background: '#1B263B',
+					"background-alt": '#121417',
+					"card-bg": 'rgba(35, 39, 42, 0.7)',
+					neon: '#4A90E2',
+					purple: '#FF006E',
+					red: '#FF7700',
+					green: '#32CD32',
+					"dark-purple": '#1B263B',
 					"muted-text": '#8892b0',
 				}
 			},

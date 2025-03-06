@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -7,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
+    --background: 220 30% 17%;    /* Midnight Blue */
     --foreground: 0 0% 98%;
 
-    --card: 224 71% 4%;
+    --card: 220 30% 13%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 224 71% 4%;
+    --popover: 220 30% 13%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 180 100% 50%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 210 75% 59%;       /* Electric Blue */
+    --primary-foreground: 220 30% 17%;
 
-    --secondary: 270 100% 50%;
+    --secondary: 338 100% 50%;    /* Cyber Magenta */
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 223 47% 17%;
+    --muted: 220 25% 23%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 180 100% 50%;
+    --accent: 210 75% 59%;        /* Electric Blue */
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 350 100% 50%;
+    --destructive: 25 100% 50%;   /* Neon Orange */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 223 47% 17%;
-    --input: 223 47% 17%;
-    --ring: 180 100% 50%;
+    --border: 220 25% 23%;
+    --input: 220 25% 23%;
+    --ring: 210 75% 59%;          /* Electric Blue */
 
     --radius: 0.5rem;
   }
