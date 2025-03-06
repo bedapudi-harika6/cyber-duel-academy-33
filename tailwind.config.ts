@@ -53,15 +53,15 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				cyber: {
-					background: '#1B263B',
-					"background-alt": '#121417',
-					"card-bg": 'rgba(35, 39, 42, 0.7)',
-					neon: '#4A90E2',
-					purple: '#FF006E',
-					red: '#FF7700',
-					green: '#32CD32',
-					"dark-purple": '#1B263B',
-					"muted-text": '#8892b0',
+					background: '#000000',
+					"background-alt": '#111111',
+					"card-bg": 'rgba(17, 17, 17, 0.7)',
+					neon: '#ea384c',
+					purple: '#ea384c',
+					red: '#ea384c',
+					green: '#ea384c',
+					"dark-purple": '#222222',
+					"muted-text": '#888888',
 				}
 			},
 			borderRadius: {

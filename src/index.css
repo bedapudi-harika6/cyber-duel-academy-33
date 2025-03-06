@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -6,33 +7,33 @@
 
 @layer base {
   :root {
-    --background: 220 30% 17%;    /* Midnight Blue */
+    --background: 0 0% 0%;       /* Pure Black */
     --foreground: 0 0% 98%;
 
-    --card: 220 30% 13%;
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 220 30% 13%;
+    --popover: 0 0% 7%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 210 75% 59%;       /* Electric Blue */
-    --primary-foreground: 220 30% 17%;
+    --primary: 353 85% 56%;      /* Red */
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 338 100% 50%;    /* Cyber Magenta */
+    --secondary: 353 85% 56%;    /* Red */
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 25% 23%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 210 75% 59%;        /* Electric Blue */
+    --accent: 353 85% 56%;       /* Red */
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 25 100% 50%;   /* Neon Orange */
+    --destructive: 353 85% 56%;  /* Red */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 25% 23%;
-    --input: 220 25% 23%;
-    --ring: 210 75% 59%;          /* Electric Blue */
+    --border: 0 0% 13%;
+    --input: 0 0% 13%;
+    --ring: 353 85% 56%;         /* Red */
 
     --radius: 0.5rem;
   }

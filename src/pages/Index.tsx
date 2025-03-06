@@ -12,7 +12,7 @@ const Index = () => {
   useEffect(() => {
     document.body.classList.add('cyber-theme');
     // Set the background color explicitly to ensure it applies everywhere
-    document.body.style.backgroundColor = '#1B263B'; // Midnight Blue
+    document.body.style.backgroundColor = '#000000'; // Pure Black
     
     return () => {
       document.body.classList.remove('cyber-theme');
