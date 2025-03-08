@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import GlitchText from '@/components/GlitchText';
 import Terminal from '@/components/Terminal';
 import { useOpenAI } from '@/hooks/useOpenAI';
-import { OpenAIMessage } from '@/services/openai';
+import { OpenAIMessage } from '@/hooks/useOpenAI';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';

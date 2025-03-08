@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import GlitchText from './GlitchText';
 import { Code, ShieldAlert, Zap, Brain, Activity, Bot, RotateCcw, Settings } from 'lucide-react';
 import { useOpenAI } from '@/hooks/useOpenAI';
-import { OpenAIMessage } from '@/services/openai';
+import { OpenAIMessage } from '@/hooks/useOpenAI';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -145,7 +144,7 @@ const AIMentor = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex items-center gap-2 text-cyber-neon border-cyber-neon/30 hover:bg-cyber-neon/10"
+              className="flex items-center gap-2 text-cyber-neon border-cyber-neon/30"
               onClick={() => setApiKeyModalOpen(true)}
             >
               <Settings size={16} />
