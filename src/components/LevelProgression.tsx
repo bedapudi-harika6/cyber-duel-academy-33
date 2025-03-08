@@ -4,6 +4,8 @@ import Badge, { BadgeType } from './Badge';
 import GlitchText from './GlitchText';
 import { cn } from '@/lib/utils';
 import { ChevronRight, ChevronLeft, Trophy, Award, Lock } from 'lucide-react';
+import ResourcesModal from './modals/ResourcesModal';
+import ChallengesModal from './modals/ChallengesModal';
 
 const levels = [
   {
@@ -78,8 +80,168 @@ const levels = [
   }
 ];
 
+// Level 1 Resources
+const explorerResources = [
+  {
+    id: "fundamentals",
+    title: "Cybersecurity Fundamentals",
+    description: "Essential concepts and principles in cybersecurity",
+    icon: "shield" as const,
+    content: `
+      <h4>Key Cybersecurity Concepts</h4>
+      <ul>
+        <li><strong>CIA Triad:</strong> Confidentiality, Integrity, and Availability - the three main pillars of information security.</li>
+        <li><strong>Defense in Depth:</strong> Multiple layers of security controls throughout a system.</li>
+        <li><strong>Principle of Least Privilege:</strong> Users should only have access to what they need.</li>
+        <li><strong>Security by Design:</strong> Building security into systems from the beginning.</li>
+      </ul>
+      
+      <h4>Common Security Controls</h4>
+      <ul>
+        <li><strong>Authentication:</strong> Verifying identity (passwords, biometrics, etc.)</li>
+        <li><strong>Authorization:</strong> Determining what authenticated users can access</li>
+        <li><strong>Encryption:</strong> Converting data into a secure format</li>
+        <li><strong>Firewalls:</strong> Filtering network traffic based on rules</li>
+        <li><strong>Intrusion Detection Systems:</strong> Monitoring for suspicious activity</li>
+      </ul>
+      
+      <h4>Key Areas of Cybersecurity</h4>
+      <ul>
+        <li>Network Security</li>
+        <li>Application Security</li>
+        <li>Cloud Security</li>
+        <li>Data Security</li>
+        <li>Identity and Access Management</li>
+        <li>Incident Response</li>
+      </ul>
+    `
+  },
+  {
+    id: "ethical-hacking",
+    title: "Ethical Hacking Principles",
+    description: "Foundations of ethical hacking and penetration testing",
+    icon: "terminal" as const,
+    content: `
+      <h4>What is Ethical Hacking?</h4>
+      <p>Ethical hacking involves legally and legitimately attempting to penetrate systems to discover vulnerabilities before malicious hackers do.</p>
+      
+      <h4>Core Principles</h4>
+      <ul>
+        <li><strong>Authorization:</strong> Always obtain proper permissions before testing</li>
+        <li><strong>Scope:</strong> Stay within defined boundaries</li>
+        <li><strong>Privacy:</strong> Protect sensitive data encountered during testing</li>
+        <li><strong>Documentation:</strong> Maintain detailed records of testing activities</li>
+        <li><strong>Non-disruption:</strong> Avoid actions that could cause damage or downtime</li>
+      </ul>
+      
+      <h4>Ethical Hacking Methodology</h4>
+      <ol>
+        <li><strong>Reconnaissance:</strong> Gathering information about the target</li>
+        <li><strong>Scanning:</strong> Identifying open ports and services</li>
+        <li><strong>Gaining Access:</strong> Exploiting vulnerabilities</li>
+        <li><strong>Maintaining Access:</strong> Ensuring persistent access</li>
+        <li><strong>Covering Tracks:</strong> Removing evidence of penetration</li>
+        <li><strong>Reporting:</strong> Documenting findings and recommendations</li>
+      </ol>
+      
+      <h4>Legal Frameworks</h4>
+      <p>Understanding laws like the Computer Fraud and Abuse Act, GDPR, and local regulations is essential for ethical hackers.</p>
+    `
+  },
+  {
+    id: "threat-models",
+    title: "Basic Threat Models",
+    description: "Understanding and identifying security threats",
+    icon: "file" as const,
+    content: `
+      <h4>What is Threat Modeling?</h4>
+      <p>Threat modeling is a structured approach to identifying, quantifying, and addressing security risks.</p>
+      
+      <h4>STRIDE Threat Model</h4>
+      <ul>
+        <li><strong>Spoofing:</strong> Impersonating something or someone else</li>
+        <li><strong>Tampering:</strong> Modifying data or code without authorization</li>
+        <li><strong>Repudiation:</strong> Denying having performed an action</li>
+        <li><strong>Information Disclosure:</strong> Exposing information to unauthorized individuals</li>
+        <li><strong>Denial of Service:</strong> Making a system or resource unavailable</li>
+        <li><strong>Elevation of Privilege:</strong> Gaining unauthorized capabilities</li>
+      </ul>
+      
+      <h4>Threat Actors</h4>
+      <ul>
+        <li><strong>Script Kiddies:</strong> Unskilled individuals using existing tools</li>
+        <li><strong>Hacktivists:</strong> Politically motivated hackers</li>
+        <li><strong>Organized Crime:</strong> Groups motivated by financial gain</li>
+        <li><strong>Nation States:</strong> Government-sponsored hacking groups</li>
+        <li><strong>Insiders:</strong> Employees or contractors with legitimate access</li>
+      </ul>
+      
+      <h4>Risk Assessment</h4>
+      <p>Risk = Likelihood × Impact</p>
+      <p>Prioritize addressing threats with both high likelihood and high impact.</p>
+    `
+  }
+];
+
+// Level 1 Challenges
+const explorerChallenges = [
+  {
+    id: "password-strength",
+    title: "Password Strength Analysis",
+    description: "Evaluate password security and understand common vulnerabilities in authentication systems",
+    difficulty: "easy" as const,
+    timeEstimate: "15 min",
+    xpReward: 50,
+    completed: false,
+    locked: false
+  },
+  {
+    id: "network-basics",
+    title: "Network Scanning Fundamentals",
+    description: "Learn to use basic network scanning tools to discover hosts and open ports",
+    difficulty: "easy" as const,
+    timeEstimate: "20 min",
+    xpReward: 75,
+    completed: false,
+    locked: false
+  },
+  {
+    id: "threat-assessment",
+    title: "STRIDE Threat Modeling",
+    description: "Apply the STRIDE methodology to identify potential threats in a simple web application",
+    difficulty: "medium" as const,
+    timeEstimate: "30 min",
+    xpReward: 100,
+    completed: false,
+    locked: false
+  },
+  {
+    id: "social-engineering",
+    title: "Social Engineering Defense",
+    description: "Identify and defend against common social engineering techniques",
+    difficulty: "easy" as const,
+    timeEstimate: "25 min",
+    xpReward: 75,
+    completed: false,
+    locked: false
+  },
+  {
+    id: "encryption-basics",
+    title: "Encryption Challenge",
+    description: "Use basic cryptographic techniques to encrypt and decrypt messages",
+    difficulty: "medium" as const,
+    timeEstimate: "40 min",
+    xpReward: 125,
+    completed: false,
+    locked: true
+  }
+];
+
 const LevelProgression = () => {
   const [activeLevel, setActiveLevel] = useState(1);
+  const [resourcesModalOpen, setResourcesModalOpen] = useState(false);
+  const [challengesModalOpen, setChallengesModalOpen] = useState(false);
+  
   const currentLevel = levels.find(level => level.id === activeLevel);
   
   const handlePrev = () => {
@@ -88,6 +250,18 @@ const LevelProgression = () => {
   
   const handleNext = () => {
     setActiveLevel(prev => Math.min(prev + 1, levels.length));
+  };
+  
+  const handleStartLevel = () => {
+    if (currentLevel?.id! <= 3) {
+      setResourcesModalOpen(true);
+    }
+  };
+  
+  const handleViewChallenges = () => {
+    if (currentLevel?.id! <= 3) {
+      setChallengesModalOpen(true);
+    }
   };
   
   return (
@@ -245,15 +419,21 @@ const LevelProgression = () => {
                 </div>
                 
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  <button className={cn(
-                    "cyber-button-primary", 
-                    currentLevel?.id! <= 3 ? "" : "opacity-50 cursor-not-allowed"
-                  )}>
+                  <button 
+                    className={cn(
+                      "cyber-button-primary", 
+                      currentLevel?.id! <= 3 ? "" : "opacity-50 cursor-not-allowed"
+                    )}
+                    onClick={handleStartLevel}
+                  >
                     {currentLevel?.id! <= 3 ? "START LEVEL" : "LOCKED"}
                   </button>
                   
                   {currentLevel?.id! <= 3 && (
-                    <button className="cyber-button-secondary flex items-center">
+                    <button 
+                      className="cyber-button-secondary flex items-center"
+                      onClick={handleViewChallenges}
+                    >
                       <Trophy size={16} className="mr-2" />
                       VIEW CHALLENGES
                     </button>
@@ -282,6 +462,25 @@ const LevelProgression = () => {
           </div>
         </div>
       </div>
+      
+      {/* Modals */}
+      <ResourcesModal 
+        isOpen={resourcesModalOpen}
+        onClose={() => setResourcesModalOpen(false)}
+        levelTitle={`Level ${currentLevel?.id}: ${currentLevel?.title}`}
+        resources={
+          currentLevel?.id === 1 ? explorerResources : []
+        }
+      />
+      
+      <ChallengesModal 
+        isOpen={challengesModalOpen}
+        onClose={() => setChallengesModalOpen(false)}
+        levelTitle={`Level ${currentLevel?.id}: ${currentLevel?.title}`}
+        challenges={
+          currentLevel?.id === 1 ? explorerChallenges : []
+        }
+      />
     </section>
   );
 };

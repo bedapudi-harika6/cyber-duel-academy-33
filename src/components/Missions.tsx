@@ -1,11 +1,52 @@
 
 import React, { useState } from 'react';
-import { Shield, Camera, Network, Flag } from 'lucide-react';
+import { Shield, Camera, Network, Flag, BookOpen } from 'lucide-react';
 import GlitchText from './GlitchText';
 import { cn } from '@/lib/utils';
 import RansomwareChallenge from './challenges/RansomwareChallenge';
 import DeepfakeChallenge from './challenges/DeepfakeChallenge';
 import CriminalNetworkChallenge from './challenges/CriminalNetworkChallenge';
+import ResourcesModal from './modals/ResourcesModal';
+
+// Level 1 Resources (simplified version for the mission)
+const fundamentalsResources = [
+  {
+    id: "cyber-basics",
+    title: "Cybersecurity Basics",
+    description: "Essential concepts for beginners",
+    icon: "shield" as const,
+    content: `
+      <h4>Core Cybersecurity Principles</h4>
+      <p>The CIA triad forms the foundation of information security:</p>
+      <ul>
+        <li><strong>Confidentiality:</strong> Ensuring that information is accessible only to those authorized to have access.</li>
+        <li><strong>Integrity:</strong> Maintaining and assuring the accuracy and completeness of data.</li>
+        <li><strong>Availability:</strong> Ensuring that information and resources are available when needed.</li>
+      </ul>
+      
+      <p>Understanding these principles is crucial for identifying and addressing security vulnerabilities in any system.</p>
+    `
+  },
+  {
+    id: "ethical-intro",
+    title: "Ethical Hacking Introduction",
+    description: "Understanding the white hat approach",
+    icon: "terminal" as const,
+    content: `
+      <h4>The Ethical Hacker Mindset</h4>
+      <p>Ethical hackers think like attackers but operate within legal boundaries to help improve security.</p>
+      
+      <h4>The Five Phases of Ethical Hacking</h4>
+      <ol>
+        <li><strong>Reconnaissance:</strong> Collecting information about the target</li>
+        <li><strong>Scanning:</strong> Identifying open ports and vulnerabilities</li>
+        <li><strong>Gaining Access:</strong> Exploiting discovered vulnerabilities</li>
+        <li><strong>Maintaining Access:</strong> Establishing persistent access</li>
+        <li><strong>Covering Tracks:</strong> Removing evidence of intrusion (for testing thoroughness)</li>
+      </ol>
+    `
+  }
+];
 
 interface MissionProps {
   icon: React.ReactNode;
@@ -72,6 +113,7 @@ const Missions = () => {
   const [ransomwareChallengeOpen, setRansomwareChallengeOpen] = useState(false);
   const [deepfakeChallengeOpen, setDeepfakeChallengeOpen] = useState(false);
   const [criminalNetworkChallengeOpen, setCriminalNetworkChallengeOpen] = useState(false);
+  const [fundamentalsResourcesOpen, setFundamentalsResourcesOpen] = useState(false);
   
   return (
     <section className="py-24 relative overflow-hidden">
@@ -92,7 +134,15 @@ const Missions = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <Mission 
+            icon={<BookOpen size={24} />} 
+            title="Cybersecurity Fundamentals" 
+            description="Learn essential cybersecurity principles, ethical hacking basics, and threat modeling fundamentals for beginners." 
+            difficulty="easy" 
+            onStartMission={() => setFundamentalsResourcesOpen(true)}
+          />
+        
           <Mission 
             icon={<Shield size={24} />} 
             title="Ransomware Response" 
@@ -133,6 +183,14 @@ const Missions = () => {
       <CriminalNetworkChallenge 
         isOpen={criminalNetworkChallengeOpen} 
         onClose={() => setCriminalNetworkChallengeOpen(false)} 
+      />
+      
+      {/* Fundamentals Resources Modal */}
+      <ResourcesModal 
+        isOpen={fundamentalsResourcesOpen}
+        onClose={() => setFundamentalsResourcesOpen(false)}
+        levelTitle="Cybersecurity Fundamentals"
+        resources={fundamentalsResources}
       />
     </section>
   );
