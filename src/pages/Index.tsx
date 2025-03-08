@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import Header from '@/components/Header';
+import Missions from '@/components/Missions';
 import LevelProgression from '@/components/LevelProgression';
 import AIMentor from '@/components/AIMentor';
 import LearningModes from '@/components/LearningModes';
@@ -26,6 +27,7 @@ const Index = () => {
       
       <main>
         <Hero />
+        <Missions />
         <LevelProgression />
         <AIMentor />
         <LearningModes />
