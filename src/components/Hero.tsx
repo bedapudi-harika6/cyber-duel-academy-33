@@ -1,24 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import GlitchText from './GlitchText';
 import Terminal from './Terminal';
-
 const Hero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-    
     let particles: Particle[] = [];
     const particleCount = 100;
 
@@ -41,16 +36,12 @@ const Hero = () => {
       drawConnections(particles, ctx);
       requestAnimationFrame(animate);
     };
-    
     animate();
-    
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
-  
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
+  return <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
       {/* Background Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0" />
       
@@ -83,11 +74,7 @@ const Hero = () => {
             
             <div className="flex items-center mt-8 space-x-2">
               <div className="flex -space-x-2">
-                {Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-cyber-background bg-gray-800 flex items-center justify-center overflow-hidden">
-                    <span className="text-xs text-cyber-red font-bold">{i+1}</span>
-                  </div>
-                ))}
+                {Array(4).fill(0).map((_, i) => {})}
               </div>
             </div>
           </div>
@@ -115,8 +102,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
 
 // Particle class for background animation
@@ -151,7 +137,6 @@ class Particle {
     ctx.fill();
   }
 }
-
 function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
   const maxDistance = 100;
   for (let i = 0; i < particles.length; i++) {
@@ -172,5 +157,4 @@ function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
     }
   }
 }
-
 export default Hero;
