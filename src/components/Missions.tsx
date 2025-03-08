@@ -4,6 +4,8 @@ import { Shield, Camera, Network, Flag } from 'lucide-react';
 import GlitchText from './GlitchText';
 import { cn } from '@/lib/utils';
 import RansomwareChallenge from './challenges/RansomwareChallenge';
+import DeepfakeChallenge from './challenges/DeepfakeChallenge';
+import CriminalNetworkChallenge from './challenges/CriminalNetworkChallenge';
 
 interface MissionProps {
   icon: React.ReactNode;
@@ -68,6 +70,8 @@ const Mission = ({
 
 const Missions = () => {
   const [ransomwareChallengeOpen, setRansomwareChallengeOpen] = useState(false);
+  const [deepfakeChallengeOpen, setDeepfakeChallengeOpen] = useState(false);
+  const [criminalNetworkChallengeOpen, setCriminalNetworkChallengeOpen] = useState(false);
   
   return (
     <section className="py-24 relative overflow-hidden">
@@ -102,7 +106,7 @@ const Missions = () => {
             title="Deepfake Detection" 
             description="Investigate a deepfake phishing scam in a virtual world. Identify digital forgeries and trace the attackers." 
             difficulty="medium"
-            onStartMission={() => alert("Deepfake Detection mission coming soon!")}
+            onStartMission={() => setDeepfakeChallengeOpen(true)}
           />
           
           <Mission 
@@ -110,15 +114,25 @@ const Missions = () => {
             title="Criminal Network Infiltration" 
             description="Hack a simulated criminal network to protect sensitive data from being exploited. Gain access while staying undetected." 
             difficulty="medium"
-            onStartMission={() => alert("Criminal Network Infiltration mission coming soon!")}
+            onStartMission={() => setCriminalNetworkChallengeOpen(true)}
           />
         </div>
       </div>
       
-      {/* Ransomware Challenge Dialog */}
+      {/* Challenge Dialogs */}
       <RansomwareChallenge 
         isOpen={ransomwareChallengeOpen} 
         onClose={() => setRansomwareChallengeOpen(false)} 
+      />
+      
+      <DeepfakeChallenge 
+        isOpen={deepfakeChallengeOpen} 
+        onClose={() => setDeepfakeChallengeOpen(false)} 
+      />
+      
+      <CriminalNetworkChallenge 
+        isOpen={criminalNetworkChallengeOpen} 
+        onClose={() => setCriminalNetworkChallengeOpen(false)} 
       />
     </section>
   );
