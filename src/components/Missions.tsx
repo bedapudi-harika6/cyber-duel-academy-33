@@ -1,27 +1,35 @@
-import React from 'react';
-import { Shield, Camera, Network } from 'lucide-react';
+
+import React, { useState } from 'react';
+import { Shield, Camera, Network, Flag } from 'lucide-react';
 import GlitchText from './GlitchText';
 import { cn } from '@/lib/utils';
+import RansomwareChallenge from './challenges/RansomwareChallenge';
+
 interface MissionProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   difficulty: 'easy' | 'medium' | 'hard';
   className?: string;
+  onStartMission: () => void;
 }
+
 const Mission = ({
   icon,
   title,
   description,
   difficulty,
-  className
+  className,
+  onStartMission
 }: MissionProps) => {
   const difficultyColor = {
     easy: 'bg-cyber-green text-black',
     medium: 'bg-cyber-yellow text-black',
     hard: 'bg-cyber-red text-white'
   };
-  return <div className={cn("cyber-card p-1 rounded-lg overflow-hidden shadow-xl relative group", className)}>
+  
+  return (
+    <div className={cn("cyber-card p-1 rounded-lg overflow-hidden shadow-xl relative group", className)}>
       {/* Highlight border */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyber-neon via-cyber-purple to-cyber-red opacity-30 group-hover:opacity-100 transition-opacity"></div>
       
@@ -30,7 +38,7 @@ const Mission = ({
         
         {/* Mission number badge */}
         <div className="absolute top-4 right-4">
-          
+          {/* Badge content if needed */}
         </div>
         
         {/* Mission icon */}
@@ -46,14 +54,23 @@ const Mission = ({
           {description}
         </p>
         
-        <button className="cyber-button-secondary w-full">
+        <button 
+          className="cyber-button-secondary w-full flex items-center justify-center gap-2"
+          onClick={onStartMission}
+        >
+          <Flag size={16} />
           START MISSION
         </button>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 const Missions = () => {
-  return <section className="py-24 relative overflow-hidden">
+  const [ransomwareChallengeOpen, setRansomwareChallengeOpen] = useState(false);
+  
+  return (
+    <section className="py-24 relative overflow-hidden">
       {/* Background grid effect */}
       <div className="absolute inset-0 cyber-bg opacity-20"></div>
       
@@ -72,13 +89,39 @@ const Missions = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Mission icon={<Shield size={24} />} title="Ransomware Response" description="Stop an AI-powered ransomware attack on a hospital. Analyze the malware, contain the threat, and recover encrypted patient data." difficulty="hard" />
+          <Mission 
+            icon={<Shield size={24} />} 
+            title="Ransomware Response" 
+            description="Stop an AI-powered ransomware attack on a hospital. Analyze the malware, contain the threat, and recover encrypted patient data." 
+            difficulty="hard" 
+            onStartMission={() => setRansomwareChallengeOpen(true)}
+          />
           
-          <Mission icon={<Camera size={24} />} title="Deepfake Detection" description="Investigate a deepfake phishing scam in a virtual world. Identify digital forgeries and trace the attackers." difficulty="medium" />
+          <Mission 
+            icon={<Camera size={24} />} 
+            title="Deepfake Detection" 
+            description="Investigate a deepfake phishing scam in a virtual world. Identify digital forgeries and trace the attackers." 
+            difficulty="medium"
+            onStartMission={() => alert("Deepfake Detection mission coming soon!")}
+          />
           
-          <Mission icon={<Network size={24} />} title="Criminal Network Infiltration" description="Hack a simulated criminal network to protect sensitive data from being exploited. Gain access while staying undetected." difficulty="medium" />
+          <Mission 
+            icon={<Network size={24} />} 
+            title="Criminal Network Infiltration" 
+            description="Hack a simulated criminal network to protect sensitive data from being exploited. Gain access while staying undetected." 
+            difficulty="medium"
+            onStartMission={() => alert("Criminal Network Infiltration mission coming soon!")}
+          />
         </div>
       </div>
-    </section>;
+      
+      {/* Ransomware Challenge Dialog */}
+      <RansomwareChallenge 
+        isOpen={ransomwareChallengeOpen} 
+        onClose={() => setRansomwareChallengeOpen(false)} 
+      />
+    </section>
+  );
 };
+
 export default Missions;
