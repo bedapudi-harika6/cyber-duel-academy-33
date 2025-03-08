@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Lock, Unlock, User, LogOut } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -37,13 +36,11 @@ const Header = () => {
               <div className="relative w-10 h-10 flex items-center justify-center mr-2">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyber-red to-cyber-red rounded-md rotate-45 animate-pulse-glow"></div>
                 <div className="relative bg-cyber-background-alt p-2 rounded-sm">
-                  <div className="text-cyber-red text-xl font-bold orbitron">HvD</div>
+                  <div className="text-cyber-red text-xl font-bold orbitron">hX</div>
                 </div>
               </div>
               <div className="text-white text-xl font-bold orbitron hidden sm:block">
-                <GlitchText text="HACKERS" className="text-cyber-red mr-2" glitchOnHover />
-                <span className="text-gray-400">vs</span>
-                <GlitchText text="DEFENDERS" className="text-cyber-red ml-2" glitchOnHover />
+                <GlitchText text="hackXtreme" className="text-cyber-red" glitchOnHover />
               </div>
             </Link>
           </div>
@@ -84,45 +81,43 @@ const Header = () => {
       </div>
       
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-cyber-background/95 backdrop-blur-md border-t border-cyber-red/30 animate-fade-in">
-          <div className="container mx-auto py-4 px-6">
-            <nav className="flex flex-col space-y-4">
-              <NavLinks mobile setIsMenuOpen={setIsMenuOpen} />
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    to="/dashboard"
-                    className="text-white hover:text-cyber-red block py-2 terminal-text"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-                  <button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      handleLogout();
-                    }} 
-                    className="cyber-button-secondary flex items-center justify-center space-x-2 mt-4 text-xs"
-                  >
-                    <LogOut size={14} />
-                    <span>LOGOUT</span>
-                  </button>
-                </>
-              ) : (
+      <div className={`md:hidden bg-cyber-background/95 backdrop-blur-md border-t border-cyber-red/30 transition-all duration-300 ${isMenuOpen ? 'max-h-screen animate-fade-in' : 'max-h-0 overflow-hidden'}`}>
+        <div className="container mx-auto py-4 px-6">
+          <nav className="flex flex-col space-y-4">
+            <NavLinks mobile setIsMenuOpen={setIsMenuOpen} />
+            {isAuthenticated ? (
+              <>
                 <Link
-                  to="/login"
-                  className="cyber-button-secondary flex items-center justify-center space-x-2 mt-4 text-xs"
+                  to="/dashboard"
+                  className="text-white hover:text-cyber-red block py-2 terminal-text"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <Lock size={14} />
-                  <span>LOGIN</span>
+                  Dashboard
                 </Link>
-              )}
-            </nav>
-          </div>
+                <button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleLogout();
+                  }} 
+                  className="cyber-button-secondary flex items-center justify-center space-x-2 mt-4 text-xs"
+                >
+                  <LogOut size={14} />
+                  <span>LOGOUT</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="cyber-button-secondary flex items-center justify-center space-x-2 mt-4 text-xs"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Lock size={14} />
+                <span>LOGIN</span>
+              </Link>
+            )}
+          </nav>
         </div>
-      )}
+      </div>
     </header>
   );
 };

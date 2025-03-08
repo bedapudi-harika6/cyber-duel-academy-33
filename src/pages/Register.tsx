@@ -40,11 +40,11 @@ const Register = () => {
           <div className="mx-auto h-12 w-12 relative">
             <div className="absolute inset-0 bg-gradient-to-br from-cyber-red to-cyber-neon rounded-md rotate-45 animate-pulse-glow"></div>
             <div className="relative bg-cyber-background-alt p-2 rounded-sm">
-              <div className="text-cyber-red text-xl font-bold orbitron">HvD</div>
+              <div className="text-cyber-red text-xl font-bold orbitron">hX</div>
             </div>
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            <GlitchText text="CREATE ACCOUNT" className="text-cyber-red" glitchOnHover={false} />
+            <GlitchText text="JOIN hackXtreme" className="text-cyber-red" glitchOnHover={false} />
           </h2>
           <p className="mt-2 text-center text-sm text-cyber-muted-text terminal-text">
             Already have an account?{' '}

@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Github, Twitter, Linkedin, Mail, ChevronRight } from 'lucide-react';
+import GlitchText from './GlitchText';
 
 const Footer = () => {
   return (
@@ -10,15 +10,13 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
               <div className="relative w-10 h-10 flex items-center justify-center mr-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyber-neon to-cyber-purple rounded-md rotate-45 animate-pulse-glow"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-cyber-neon to-cyber-red rounded-md rotate-45 animate-pulse-glow"></div>
                 <div className="relative bg-cyber-background-alt p-2 rounded-sm">
-                  <div className="text-cyber-neon text-xl font-bold orbitron">HvD</div>
+                  <div className="text-cyber-red text-xl font-bold orbitron">hX</div>
                 </div>
               </div>
               <div className="text-white text-xl font-bold orbitron">
-                <span className="text-cyber-red mr-2">HACKERS</span>
-                <span className="text-gray-400">vs</span>
-                <span className="text-cyber-neon ml-2">DEFENDERS</span>
+                <GlitchText text="hackXtreme" className="text-cyber-red" glitchOnHover />
               </div>
             </div>
             <p className="text-cyber-muted-text mb-6">
@@ -65,7 +63,7 @@ const Footer = () => {
         
         <div className="mt-16 pt-8 border-t border-cyber-neon/10 flex flex-col md:flex-row justify-between items-center">
           <div className="text-cyber-muted-text text-sm mb-4 md:mb-0">
-            © 2023 Hackers vs. Defenders. All rights reserved.
+            © 2023 hackXtreme. All rights reserved.
           </div>
           
           <div className="flex items-center terminal-text text-xs">

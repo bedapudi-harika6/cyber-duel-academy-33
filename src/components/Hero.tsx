@@ -1,19 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 import GlitchText from './GlitchText';
 import Terminal from './Terminal';
+
 const Hero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
+    
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
+    
     let particles: Particle[] = [];
     const particleCount = 100;
 
@@ -36,12 +41,16 @@ const Hero = () => {
       drawConnections(particles, ctx);
       requestAnimationFrame(animate);
     };
+    
     animate();
+    
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
-  return <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
+  
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
       {/* Background Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0" />
       
@@ -56,9 +65,7 @@ const Hero = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 cyber-heading">
-              <GlitchText text="HACKERS" className="text-cyber-red mr-2" />
-              <span className="text-gray-400">vs</span>
-              <GlitchText text="DEFENDERS" className="text-cyber-neon ml-2" />
+              <GlitchText text="hackXtreme" className="text-cyber-red" />
             </h1>
             
             <p className="text-cyber-muted-text text-lg mb-8 max-w-lg">
@@ -76,10 +83,12 @@ const Hero = () => {
             
             <div className="flex items-center mt-8 space-x-2">
               <div className="flex -space-x-2">
-                {[...Array(4)].map((_, i) => {})}
-                
+                {Array(4).fill(0).map((_, i) => (
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-cyber-background bg-gray-800 flex items-center justify-center overflow-hidden">
+                    <span className="text-xs text-cyber-red font-bold">{i+1}</span>
+                  </div>
+                ))}
               </div>
-              
             </div>
           </div>
           
@@ -93,10 +102,10 @@ const Hero = () => {
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-cyber-green"></div>
                   </div>
-                  <div className="text-xs text-gray-400 terminal-text">cyberduel_academy.exe</div>
+                  <div className="text-xs text-gray-400 terminal-text">hackXtreme.exe</div>
                 </div>
                 
-                <Terminal text={["Initializing CyberDuel Academy...", "Establishing secure connection...", "Connection established.", "Welcome to Hackers vs. Defenders!", "Loading AI Cyber Mentor...", "AI Mentor online and ready to assist.", "Scanning for vulnerabilities...", "10 learning levels detected.", "Challenge database loaded.", "Are you ready to begin your training?", "Choose your path: HACK or DEFEND"]} className="h-[300px] md:h-[350px]" typingSpeed={30} />
+                <Terminal text={["Initializing hackXtreme...", "Establishing secure connection...", "Connection established.", "Welcome to hackXtreme!", "Loading AI Cyber Mentor...", "AI Mentor online and ready to assist.", "Scanning for vulnerabilities...", "10 learning levels detected.", "Challenge database loaded.", "Are you ready to begin your training?", "Choose your path: HACK or DEFEND"]} className="h-[300px] md:h-[350px]" typingSpeed={30} />
               </div>
             </div>
             
@@ -106,7 +115,8 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 
 // Particle class for background animation
@@ -141,6 +151,7 @@ class Particle {
     ctx.fill();
   }
 }
+
 function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
   const maxDistance = 100;
   for (let i = 0; i < particles.length; i++) {
@@ -161,4 +172,5 @@ function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
     }
   }
 }
+
 export default Hero;
