@@ -1,11 +1,109 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import GlitchText from '@/components/GlitchText';
 import Terminal from '@/components/Terminal';
+import { useOpenAI } from '@/hooks/useOpenAI';
+import { OpenAIMessage } from '@/services/openai';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Settings } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [mentorInput, setMentorInput] = useState('');
+  const [aiResponses, setAiResponses] = useState<string[]>([
+    "Connecting to AI Mentor...",
+    "Connection established."
+  ]);
+  const { loading, setApiKey: saveApiKey, getApiKey, generateResponse } = useOpenAI();
+  
+  useEffect(() => {
+    // Check if API key exists on component mount
+    const hasApiKey = !!getApiKey();
+    
+    // Add default AI mentor messages
+    if (hasApiKey && user) {
+      setAiResponses(prev => [
+        ...prev,
+        `Hello ${user.username}, I've analyzed your progress.`,
+        "You're making good progress in web reconnaissance.",
+        "I suggest focusing on HTTP header analysis next.",
+        "Would you like me to prepare a practical exercise?",
+      ]);
+    } else if (!hasApiKey && user) {
+      setAiResponses(prev => [
+        ...prev,
+        `Hello ${user.username}, to activate AI features,`,
+        "please configure your OpenAI API key.",
+      ]);
+    }
+  }, [user]);
+
+  const handleSaveApiKey = () => {
+    if (apiKey.trim()) {
+      saveApiKey(apiKey.trim());
+      setApiKeyModalOpen(false);
+      
+      // Update messages after API key is set
+      if (user) {
+        setAiResponses([
+          "Connecting to AI Mentor...",
+          "Connection established.",
+          `Hello ${user.username}, I've analyzed your progress.`,
+          "You're making good progress in web reconnaissance.",
+          "I suggest focusing on HTTP header analysis next.",
+          "Would you like me to prepare a practical exercise?",
+        ]);
+      }
+    }
+  };
+
+  const handleSendMentorMessage = async () => {
+    if (!mentorInput.trim() || loading) return;
+    
+    // Add "typing" indicator
+    setAiResponses(prev => [...prev, `> ${mentorInput}`, "Processing..."]);
+    setMentorInput('');
+    
+    // Construct the conversation for OpenAI
+    const messages: OpenAIMessage[] = [
+      {
+        role: 'system',
+        content: `You are an AI cybersecurity mentor for hackXtreme, an advanced cybersecurity training platform. 
+        You are having a conversation with a student named ${user?.username || 'User'}. 
+        Keep your responses brief (under 40 words when possible) and focused on cybersecurity training.
+        Current context: The user is working on web application reconnaissance and learning about HTTP headers.`
+      },
+      {
+        role: 'user',
+        content: mentorInput
+      }
+    ];
+    
+    // Get response from OpenAI
+    const response = await generateResponse(messages);
+    
+    // Update UI with response
+    if (response) {
+      // Remove the "Processing..." message
+      setAiResponses(prev => {
+        const newResponses = [...prev];
+        newResponses.pop(); // Remove "Processing..."
+        return [...newResponses, response.content];
+      });
+    } else {
+      // Handle error
+      setAiResponses(prev => {
+        const newResponses = [...prev];
+        newResponses.pop(); // Remove "Processing..."
+        return [...newResponses, "Error connecting to AI. Please check your API key."];
+      });
+    }
+  };
   
   if (!user) return null;
   
@@ -90,25 +188,53 @@ const Dashboard = () => {
             <div className="cyber-card p-1 rounded-lg overflow-hidden shadow-xl mb-6">
               <div className="bg-cyber-background-alt p-4 rounded-lg relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyber-red via-cyber-red to-cyber-red"></div>
-                <h2 className="text-xl font-bold text-white mb-4">AI Mentor</h2>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-white">AI Mentor</h2>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setApiKeyModalOpen(true)}
+                    className="text-cyber-muted-text hover:text-white"
+                  >
+                    <Settings size={16} />
+                  </Button>
+                </div>
                 
                 <Terminal 
-                  text={[
-                    "Connecting to AI Mentor...",
-                    "Connection established.",
-                    `Hello ${user.username}, I've analyzed your progress.`,
-                    "You're making good progress in web reconnaissance.",
-                    "I suggest focusing on HTTP header analysis next.",
-                    "Would you like me to prepare a practical exercise?",
-                  ]} 
+                  text={aiResponses} 
                   className="h-[200px]" 
                   typingSpeed={30}
                 />
                 
-                <div className="mt-4 flex space-x-2">
-                  <button className="cyber-button-primary text-xs flex-1">YES</button>
-                  <button className="cyber-button-secondary text-xs flex-1">NO</button>
-                </div>
+                {getApiKey() ? (
+                  <div className="mt-4">
+                    <div className="flex space-x-2">
+                      <Input
+                        placeholder="Ask your AI mentor..."
+                        value={mentorInput}
+                        onChange={(e) => setMentorInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMentorMessage()}
+                        className="bg-cyber-background border-cyber-red/30 text-white"
+                      />
+                      <Button 
+                        className="cyber-button-primary" 
+                        onClick={handleSendMentorMessage}
+                        disabled={loading || !mentorInput.trim()}
+                      >
+                        Send
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-4 flex space-x-2">
+                    <Button 
+                      className="cyber-button-primary flex-1"
+                      onClick={() => setApiKeyModalOpen(true)}
+                    >
+                      Configure API
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -154,6 +280,55 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* API Key Configuration Modal */}
+      <Dialog open={apiKeyModalOpen} onOpenChange={setApiKeyModalOpen}>
+        <DialogContent className="bg-cyber-background border border-cyber-neon/30 text-white">
+          <DialogHeader>
+            <DialogTitle className="cyber-heading text-xl">OpenAI API Configuration</DialogTitle>
+            <DialogDescription className="text-cyber-muted-text">
+              Enter your OpenAI API key to enable the AI Mentor functionality.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label htmlFor="apiKey" className="text-sm font-medium text-white">
+                API Key
+              </label>
+              <Input
+                id="apiKey"
+                type="password"
+                placeholder="sk-..."
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                className="bg-cyber-background-alt border-cyber-neon/30"
+              />
+              <p className="text-xs text-cyber-muted-text">
+                Your API key is stored locally in your browser and never sent to our servers.
+                Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-cyber-neon underline">OpenAI's dashboard</a>.
+              </p>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setApiKeyModalOpen(false)}
+              className="border-cyber-red/30 text-cyber-red hover:bg-cyber-red/10"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSaveApiKey}
+              className="cyber-button-primary"
+              disabled={!apiKey.trim()}
+            >
+              Save API Key
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
