@@ -36,11 +36,17 @@ class OpenAIService {
   private apiKey: string | null = null;
   private baseUrl = 'https://api.openai.com/v1';
   private defaultModel = 'gpt-4o-mini';
+  private availableModels = ['gpt-4o-mini', 'gpt-4o', 'gpt-3.5-turbo'];
 
   setApiKey(apiKey: string) {
-    this.apiKey = apiKey;
+    if (!apiKey.trim()) {
+      console.error('API key cannot be empty');
+      return false;
+    }
+    
+    this.apiKey = apiKey.trim();
     // Store in localStorage for persistence
-    localStorage.setItem('openai_api_key', apiKey);
+    localStorage.setItem('openai_api_key', this.apiKey);
     return true;
   }
 
@@ -74,7 +80,15 @@ class OpenAIService {
       return null;
     }
 
+    // Validate model
+    const model = options.model || this.defaultModel;
+    if (!this.availableModels.includes(model)) {
+      console.warn(`Model ${model} not in the list of available models. Using ${this.defaultModel} instead.`);
+    }
+
     try {
+      console.log(`Sending request to OpenAI with model: ${model}`);
+      
       const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
@@ -82,7 +96,7 @@ class OpenAIService {
           'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: options.model || this.defaultModel,
+          model: model,
           messages,
           temperature: options.temperature ?? 0.7,
           max_tokens: options.max_tokens
@@ -90,21 +104,24 @@ class OpenAIService {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Failed to connect to OpenAI API');
+        const errorData = await response.json();
+        console.error("OpenAI API Error:", errorData);
+        const errorMessage = errorData.error?.message || `API Error: ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
       }
 
       const data: OpenAICompletionResponse = await response.json();
+      console.log("OpenAI response received:", data.choices[0].message);
       return data.choices[0].message;
     } catch (error: any) {
-      toast({
-        title: "AI Request Failed",
-        description: error.message || "Something went wrong",
-        variant: "destructive"
-      });
       console.error('OpenAI API Error:', error);
-      return null;
+      throw error;
     }
+  }
+  
+  // Helper method to validate API key format
+  validateApiKey(apiKey: string): boolean {
+    return apiKey.trim().startsWith('sk-') && apiKey.trim().length > 15;
   }
 }
 
