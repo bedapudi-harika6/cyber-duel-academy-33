@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { Shield, Camera, Network } from 'lucide-react';
 import GlitchText from './GlitchText';
 import { cn } from '@/lib/utils';
-
 interface MissionProps {
   icon: React.ReactNode;
   title: string;
@@ -11,19 +9,19 @@ interface MissionProps {
   difficulty: 'easy' | 'medium' | 'hard';
   className?: string;
 }
-
-const Mission = ({ icon, title, description, difficulty, className }: MissionProps) => {
+const Mission = ({
+  icon,
+  title,
+  description,
+  difficulty,
+  className
+}: MissionProps) => {
   const difficultyColor = {
     easy: 'bg-cyber-green text-black',
     medium: 'bg-cyber-yellow text-black',
-    hard: 'bg-cyber-red text-white',
+    hard: 'bg-cyber-red text-white'
   };
-
-  return (
-    <div className={cn(
-      "cyber-card p-1 rounded-lg overflow-hidden shadow-xl relative group",
-      className
-    )}>
+  return <div className={cn("cyber-card p-1 rounded-lg overflow-hidden shadow-xl relative group", className)}>
       {/* Highlight border */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyber-neon via-cyber-purple to-cyber-red opacity-30 group-hover:opacity-100 transition-opacity"></div>
       
@@ -32,12 +30,7 @@ const Mission = ({ icon, title, description, difficulty, className }: MissionPro
         
         {/* Mission number badge */}
         <div className="absolute top-4 right-4">
-          <span className={cn(
-            "inline-flex items-center justify-center h-6 w-auto px-2 rounded-full text-xs font-bold",
-            difficultyColor[difficulty]
-          )}>
-            {difficulty.toUpperCase()}
-          </span>
+          
         </div>
         
         {/* Mission icon */}
@@ -57,13 +50,10 @@ const Mission = ({ icon, title, description, difficulty, className }: MissionPro
           START MISSION
         </button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const Missions = () => {
-  return (
-    <section className="py-24 relative overflow-hidden">
+  return <section className="py-24 relative overflow-hidden">
       {/* Background grid effect */}
       <div className="absolute inset-0 cyber-bg opacity-20"></div>
       
@@ -82,30 +72,13 @@ const Missions = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Mission
-            icon={<Shield size={24} />}
-            title="Ransomware Response"
-            description="Stop an AI-powered ransomware attack on a hospital. Analyze the malware, contain the threat, and recover encrypted patient data."
-            difficulty="hard"
-          />
+          <Mission icon={<Shield size={24} />} title="Ransomware Response" description="Stop an AI-powered ransomware attack on a hospital. Analyze the malware, contain the threat, and recover encrypted patient data." difficulty="hard" />
           
-          <Mission
-            icon={<Camera size={24} />}
-            title="Deepfake Detection"
-            description="Investigate a deepfake phishing scam in a virtual world. Identify digital forgeries and trace the attackers."
-            difficulty="medium"
-          />
+          <Mission icon={<Camera size={24} />} title="Deepfake Detection" description="Investigate a deepfake phishing scam in a virtual world. Identify digital forgeries and trace the attackers." difficulty="medium" />
           
-          <Mission
-            icon={<Network size={24} />}
-            title="Criminal Network Infiltration"
-            description="Hack a simulated criminal network to protect sensitive data from being exploited. Gain access while staying undetected."
-            difficulty="medium"
-          />
+          <Mission icon={<Network size={24} />} title="Criminal Network Infiltration" description="Hack a simulated criminal network to protect sensitive data from being exploited. Gain access while staying undetected." difficulty="medium" />
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Missions;
