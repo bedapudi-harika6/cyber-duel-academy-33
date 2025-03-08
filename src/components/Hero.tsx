@@ -1,64 +1,49 @@
-
 import React, { useEffect, useRef } from 'react';
 import GlitchText from './GlitchText';
 import Terminal from './Terminal';
-
 const Hero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-    
     let particles: Particle[] = [];
     const particleCount = 100;
-    
+
     // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle(canvas));
     }
-    
+
     // Animation loop
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       // Draw particles and connections
       particles.forEach(particle => {
         particle.update();
         particle.draw(ctx);
       });
-      
+
       // Draw connections
       drawConnections(particles, ctx);
-      
       requestAnimationFrame(animate);
     };
-    
     animate();
-    
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
-  
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
+  return <section className="relative min-h-screen flex items-center overflow-hidden cyber-bg">
       {/* Background Canvas */}
-      <canvas 
-        ref={canvasRef} 
-        className="absolute inset-0 w-full h-full z-0" 
-      />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0" />
       
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-cyber-background/70 via-cyber-background to-cyber-background z-10"></div>
@@ -91,23 +76,10 @@ const Hero = () => {
             
             <div className="flex items-center mt-8 space-x-2">
               <div className="flex -space-x-2">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-cyber-card-bg border border-cyber-neon/30 flex items-center justify-center overflow-hidden">
-                    <div className={`w-full h-full bg-gradient-to-br ${
-                      i === 0 ? 'from-red-500 to-orange-500' : 
-                      i === 1 ? 'from-blue-500 to-purple-500' : 
-                      i === 2 ? 'from-green-500 to-teal-500' : 
-                      'from-yellow-500 to-amber-500'
-                    }`}></div>
-                  </div>
-                ))}
-                <div className="w-8 h-8 rounded-full bg-cyber-background border border-cyber-neon/30 flex items-center justify-center terminal-text text-xs text-cyber-neon">
-                  999+
-                </div>
+                {[...Array(4)].map((_, i) => {})}
+                
               </div>
-              <p className="text-sm text-cyber-muted-text">
-                <span className="text-white">5,000+</span> learners already enrolled
-              </p>
+              
             </div>
           </div>
           
@@ -124,23 +96,7 @@ const Hero = () => {
                   <div className="text-xs text-gray-400 terminal-text">cyberduel_academy.exe</div>
                 </div>
                 
-                <Terminal 
-                  text={[
-                    "Initializing CyberDuel Academy...",
-                    "Establishing secure connection...",
-                    "Connection established.",
-                    "Welcome to Hackers vs. Defenders!",
-                    "Loading AI Cyber Mentor...",
-                    "AI Mentor online and ready to assist.",
-                    "Scanning for vulnerabilities...",
-                    "10 learning levels detected.",
-                    "Challenge database loaded.",
-                    "Are you ready to begin your training?",
-                    "Choose your path: HACK or DEFEND"
-                  ]} 
-                  className="h-[300px] md:h-[350px]"
-                  typingSpeed={30}
-                />
+                <Terminal text={["Initializing CyberDuel Academy...", "Establishing secure connection...", "Connection established.", "Welcome to Hackers vs. Defenders!", "Loading AI Cyber Mentor...", "AI Mentor online and ready to assist.", "Scanning for vulnerabilities...", "10 learning levels detected.", "Challenge database loaded.", "Are you ready to begin your training?", "Choose your path: HACK or DEFEND"]} className="h-[300px] md:h-[350px]" typingSpeed={30} />
               </div>
             </div>
             
@@ -150,8 +106,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
 
 // Particle class for background animation
@@ -163,7 +118,6 @@ class Particle {
   speedY: number;
   color: string;
   canvas: HTMLCanvasElement;
-  
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.x = Math.random() * canvas.width;
@@ -174,18 +128,12 @@ class Particle {
     this.color = Math.random() > 0.5 ? '#00FFFF' : '#8B00FF';
     this.color = Math.random() > 0.8 ? '#FF003C' : this.color;
   }
-  
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-    
-    if (this.x > this.canvas.width) this.x = 0;
-    else if (this.x < 0) this.x = this.canvas.width;
-    
-    if (this.y > this.canvas.height) this.y = 0;
-    else if (this.y < 0) this.y = this.canvas.height;
+    if (this.x > this.canvas.width) this.x = 0;else if (this.x < 0) this.x = this.canvas.width;
+    if (this.y > this.canvas.height) this.y = 0;else if (this.y < 0) this.y = this.canvas.height;
   }
-  
   draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;
     ctx.beginPath();
@@ -193,21 +141,17 @@ class Particle {
     ctx.fill();
   }
 }
-
 function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
   const maxDistance = 100;
-  
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
       const dx = particles[i].x - particles[j].x;
       const dy = particles[i].y - particles[j].y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      
       if (distance < maxDistance) {
         ctx.beginPath();
-        ctx.strokeStyle = particles[i].color === particles[j].color ? 
-                          particles[i].color : '#FFFFFF';
-        ctx.globalAlpha = 1 - (distance / maxDistance);
+        ctx.strokeStyle = particles[i].color === particles[j].color ? particles[i].color : '#FFFFFF';
+        ctx.globalAlpha = 1 - distance / maxDistance;
         ctx.lineWidth = 0.5;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -217,5 +161,4 @@ function drawConnections(particles: Particle[], ctx: CanvasRenderingContext2D) {
     }
   }
 }
-
 export default Hero;
